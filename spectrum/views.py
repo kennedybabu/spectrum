@@ -49,4 +49,15 @@ def userProfile(request, pk):
         'posts':posts,
     }
     return render(request, 'spectrum/profile.html', context)
+
+@login_required(login_url='login')
+def createInterest(request):
+    form = InterestForm()
+    if request.method == 'POST':
+        form = InterestForm(request.POST)
+        if form.is_valid():
+            interest = form.save(commit=False)
+            interest.host = request.user
+            hood.save()
+            return redirect('home')
     
