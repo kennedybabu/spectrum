@@ -38,4 +38,29 @@ def loginPage(request):
 def logoutUser(request):
     logout(request)
     return redirect('home')
+
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    interests = user.interests_set.all()
+    posts = user.post_set.all()
+    context = {
+        'user':user,
+        'interests':interests,
+        'posts':posts,
+    }
+    return render(request, 'spectrum/profile.html', context)
+
+
+def createInterest(request):
+    form = InterestForm()
+    if request.method == 'POST':
+        form = InterestForm(request.POST)
+        if form.is_valid():
+            interest = form.save(commit=False)
+            interest.host = request.user
+            interest.save()
+            return redirect('home')
+
+    context = {'form':form}
+    return render(request, 'spectrum/channel_form.html', context)
     
