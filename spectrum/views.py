@@ -50,7 +50,7 @@ def userProfile(request, pk):
     }
     return render(request, 'spectrum/profile.html', context)
 
-@login_required(login_url='login')
+
 def createInterest(request):
     form = InterestForm()
     if request.method == 'POST':
@@ -58,6 +58,9 @@ def createInterest(request):
         if form.is_valid():
             interest = form.save(commit=False)
             interest.host = request.user
-            hood.save()
+            interest.save()
             return redirect('home')
+
+    context = {'form':form}
+    return render(request, 'spectrum/channel_form.html', context)
     
