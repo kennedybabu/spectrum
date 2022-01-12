@@ -38,4 +38,15 @@ def loginPage(request):
 def logoutUser(request):
     logout(request)
     return redirect('home')
+
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    interests = user.interests_set.all()
+    posts = user.post_set.all()
+    context = {
+        'user':user,
+        'interests':interests,
+        'posts':posts,
+    }
+    return render(request, 'spectrum/profile.html', context)
     
