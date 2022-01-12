@@ -3,10 +3,10 @@ from.models import Interest, User, Post, Comment
 from django.contrib.auth.forms import UserCreationForm
 
 
-class MyUserCreationForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ['name', 'username', 'email', 'password1', 'password2']
+# class MyUserCreationForm(UserCreationForm):
+#     class Meta:
+#         model = User
+#         fields = ['name', 'username', 'email', 'password1', 'password2']
 
 
 class InterestForm(ModelForm):
@@ -16,8 +16,8 @@ class InterestForm(ModelForm):
         exclude = ['host', 'members', ]
 
 
-class UserForm(ModelForm):
-    class Meta:
-        model = User
-        fields = ['name','username','email','profile_pic','bio']
+# class UserForm(ModelForm):
+#     class Meta:
+#         model = User
+#         fields = ['name','username','email','profile_pic','bio']
 
