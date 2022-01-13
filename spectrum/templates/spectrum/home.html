@@ -6,12 +6,14 @@
 {% block content %}
 <p>home page</p>
 <a href="{% url 'login' %}">login</a>
+<a href="{% url 'create_interest' %}">create interest</a>
 
-<a href="{% url 'create_interest' %}">create</a>
 
 {% for interest in interests %} 
+<div>
     <p><a href="{% url 'interest' interest.id %}">{{ interest.name }}</a></p>
-
+    <a href="{% url 'update_interest' interest.id %}">update</a>
+</div>
 {% endfor %}
 
 

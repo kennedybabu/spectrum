@@ -74,4 +74,19 @@ def createInterest(request):
 
     context = {'form':form}
     return render(request, 'spectrum/channel_form.html', context)
+
+
+def updateInterest(request, pk):
+    interest = Interest.objects.get(id=pk)
+    form = InterestForm(instance=interest)
+
+    if request.method == 'POST':
+        form = InterestForm(request.POST, instance=interest)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    context = {
+        'form':form
+    }
+    return render(request, 'spectrum/channel_form.html', context)
     
