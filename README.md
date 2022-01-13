@@ -1,14 +1,20 @@
 ## Project Title
 Project Spectrum    
 
-## Getting Started
- 
+## Project Description
+The project gives users the opportunity to join a group of people and meet people who share common intrests.
+
+A user can: join a group, view people's posts, comment on them, add your own post and view your profile.
+
 
  
 ## Prerequisites
-What things you need to install the software and how to install them
+No special installations needed to use the online website.
 
-Give examples
+To run locally;
+    CLone the online repository.
+    Install the apps in the requirements.txt file.
+    run the app.
 
 ## Installing
 A step by step series of examples that tell you how to get a development env running
