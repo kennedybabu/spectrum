@@ -119,9 +119,11 @@ def quitInterest(request,pk):
     interest = Interest.objects.get(id=pk)
     interest.members.remove(request.user)
     members = interest.members.all()
+    interests = Interest.objects.all()
     context = {
         'members':members,
-        'interest':interest
+        'interest':interest,
+        'interests':interests
     }
     return render(request, 'spectrum/home.html', context)
 
