@@ -1,5 +1,13 @@
+{% extends 'base.html' %} 
 
+{% load bootstrap4 %}
+
+
+{% block content %}
 <p>home page</p>
 <a href="{% url 'login' %}">login</a>
 
 <a href="{% url 'create_interest' %}">create</a>
+
+
+{% endblock %}
