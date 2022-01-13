@@ -10,13 +10,12 @@
 
 
 {% for interest in interests %} 
-<div>
-    <p><a href="{% url 'interest' interest.id %}">{{ interest.name }}</a></p>
-    <a href="{% url 'update_interest' interest.id %}">update</a>
-    <a href="{% url 'delete_interest' interest.id %}">delete</a>
+    <div>
+        <p><a href="{% url 'interest' interest.id %}">{{ interest.name }}</a></p>
+        <a href="{% url 'update_interest' interest.id %}">update</a>
+        <a href="{% url 'delete_interest' interest.id %}">delete</a>
 
-</div>
+    </div>
 {% endfor %}
-
 
 {% endblock %}
