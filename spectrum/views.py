@@ -19,10 +19,21 @@ def home(request):
 
 def interest(request, pk):
     interest = Interest.objects.get(id=pk)
+    posts = interest.post_set.all().order_by('-created')
     members = interest.members.all()
+
+    if request.method == 'POST':
+        post = Post.objects.create(
+            user = request.user,
+            interest = interest,
+            body = request.POST.get('body')
+        )
+
+        return redirect('interest', pk=interest.id )
     context = {
      'interest':interest,  
-      'members':members
+      'members':members,
+      'posts':posts
     }
     
     return render(request, 'spectrum/channel.html', context)

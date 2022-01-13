@@ -10,8 +10,7 @@ class Interest(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     description = models.TextField(null=True)
-
-
+    posts = models.ManyToManyField('Post', related_name='posts', blank=True)
 
     class Meta:
         ordering = ['-updated', '-created']
@@ -23,7 +22,7 @@ class Interest(models.Model):
 
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    hood = models.ForeignKey(Interest, on_delete=models.CASCADE)
+    interest = models.ForeignKey(Interest, on_delete=models.CASCADE)
     body = models.TextField()
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
