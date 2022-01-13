@@ -89,4 +89,13 @@ def updateInterest(request, pk):
         'form':form
     }
     return render(request, 'spectrum/channel_form.html', context)
+
+
+def deleteInterest(request, pk):
+    interest = Interest.objects.get(id=pk)
+
+    if request.method == 'POST':
+        interest.delete()
+        return redirect('home')
+    return render(request, 'spectrum/delete.html', {'obj':interest})
     
