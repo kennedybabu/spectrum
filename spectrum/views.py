@@ -52,11 +52,11 @@ def logoutUser(request):
 
 def userProfile(request, pk):
     user = User.objects.get(id=pk)
-    interests = user.interests_set.all()
+    # interests = user.interests_set.all()
     posts = user.post_set.all()
     context = {
         'user':user,
-        'interests':interests,
+        # 'interests':interests,
         'posts':posts,
     }
     return render(request, 'spectrum/profile.html', context)

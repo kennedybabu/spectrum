@@ -9,6 +9,5 @@ urlpatterns = [
     path('create_interest/', views.createInterest, name='create_interest'),
     path('update_interest/<int:pk>/', views.updateInterest, name='update_interest'),
     path('delete_interest/<int:pk>/', views.deleteInterest, name='delete_interest'),
-
-
+    path('profile/<int:pk>/', views.userProfile, name='user_profile'),
 ]
