@@ -17,8 +17,10 @@ def home(request):
 
 def interest(request, pk):
     interest = Interest.objects.get(id=pk)
+    members = interest.members.all()
     context = {
-     'interest':interest   
+     'interest':interest,  
+      'members':members
     }
     
     return render(request, 'spectrum/channel.html', context)
