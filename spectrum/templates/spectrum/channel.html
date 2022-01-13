@@ -7,13 +7,35 @@
 <h4>{{ interest.name }}</h4>
 <p>{{ interest.description }}</p>
 
-
-
 {% for member in members %} 
 
-{{ member.username }}
+  {{ member.username }}
 
 {% endfor %}
+
+
+<div class="conversation-wrapper">
+    {% for post in posts %}
+
+        <small>@ {{ post.user }} {{ post.created }}</small>
+        <p>{{ post.body }}</p>   
+        <hr>
+    
+    {% endfor %}
+</div>
+
+<div>
+    <form action="" method="POST" class="post-form">
+        {% csrf_token %}
+
+        {% if request.user.is_authenticated %}  
+
+        <input type="text" name="body" value='create post...'>
+
+        {% endif %}
+
+    </form>
+</div>
 
 
 
