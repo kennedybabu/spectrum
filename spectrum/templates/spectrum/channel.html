@@ -5,7 +5,11 @@
 
 {% block content %}
 
-hey
+{% for member in members %} 
+
+{{ member.username }}
+
+{% endfor %}
 
 
 {% endblock %}

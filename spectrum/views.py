@@ -100,4 +100,29 @@ def deleteInterest(request, pk):
         interest.delete()
         return redirect('home')
     return render(request, 'spectrum/delete.html', {'obj':interest})
+
+
+
+def joinInterest(request, pk):
+    interest = Interest.objects.get(id=pk)
+    interest.members.add(request.user)
+    members = interest.members.all()
+
+    context = {
+        'interest':interest,
+        'members':members
+    }
+    return render(request, 'spectrum/channel.html', context)
+
+
+def quitInterest(request,pk):
+    interest = Interest.objects.get(id=pk)
+    interest.members.remove(request.user)
+    members = interest.members.all()
+    context = {
+        'members':members,
+        'interest':interest
+    }
+    return render(request, 'spectrum/home.html', context)
+
     
