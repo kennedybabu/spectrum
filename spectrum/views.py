@@ -58,7 +58,7 @@ def createInterest(request):
         form = InterestForm(request.POST)
         if form.is_valid():
             interest = form.save(commit=False)
-            interest.host = request.user
+            # interest.host = request.user
             interest.save()
             return redirect('home')
 
