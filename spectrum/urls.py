@@ -11,4 +11,8 @@ urlpatterns = [
     path('update_interest/<int:pk>/', views.updateInterest, name='update_interest'),
     path('delete_interest/<int:pk>/', views.deleteInterest, name='delete_interest'),
     path('profile/<int:pk>/', views.userProfile, name='user_profile'),
+    path('join_interest/<int:pk>/', views.joinInterest, name='join_interest'),
+    path('quit_interest/<int:pk>/', views.quitInterest, name='quit_interest'),
+
+
 ]
