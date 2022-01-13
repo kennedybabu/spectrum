@@ -1,0 +1,21 @@
+{% extends 'base.html' %} 
+
+{% load bootstrap4 %}
+
+
+{% block content %}
+<p>home page</p>
+<a href="{% url 'login' %}">login</a>
+<a href="{% url 'create_interest' %}">create interest</a>
+
+
+{% for interest in interests %} 
+    <div>
+        <p><a href="{% url 'interest' interest.id %}">{{ interest.name }}</a></p>
+        <a href="{% url 'update_interest' interest.id %}">update</a>
+        <a href="{% url 'delete_interest' interest.id %}">delete</a>
+
+    </div>
+{% endfor %}
+
+{% endblock %}
