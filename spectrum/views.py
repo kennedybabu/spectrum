@@ -1,9 +1,11 @@
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .forms import InterestForm
 from .models import Interest, Post,Comment
+from django.contrib.auth.forms import UserCreationForm
 
 
 # Create your views here.
@@ -25,8 +27,9 @@ def interest(request, pk):
 
 
 def loginPage(request):
+    page = 'login'
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = request.POST.get('username').lower()
         password = request.POST.get('password')
         
         try:
@@ -42,7 +45,9 @@ def loginPage(request):
         else:
             messages.error(request, 'username or password does not exist')
 
-    context = {}
+    context = {
+        'page':page
+    }
     return render(request, 'spectrum/login_register.html', context)
 
 
@@ -50,13 +55,34 @@ def logoutUser(request):
     logout(request)
     return redirect('home')
 
+
+def registerUser(request): 
+    form = UserCreationForm()
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid:
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(request, user)
+            return redirect('home')
+
+        else:
+            messages.error(request, 'something went wrong during registration')
+
+    context = {
+        'form':form
+    }
+    return render(request, 'spectrum/login_register.html', context)
+
 def userProfile(request, pk):
     user = User.objects.get(id=pk)
-    interests = user.interests_set.all()
+    # interests = user.interests_set.all()
     posts = user.post_set.all()
     context = {
         'user':user,
-        'interests':interests,
+        # 'interests':interests,
         'posts':posts,
     }
     return render(request, 'spectrum/profile.html', context)
@@ -79,6 +105,9 @@ def createInterest(request):
 def updateInterest(request, pk):
     interest = Interest.objects.get(id=pk)
     form = InterestForm(instance=interest)
+
+    if request.user != interest.host:
+        return HttpResponse('You are not allowed here!')
 
     if request.method == 'POST':
         form = InterestForm(request.POST, instance=interest)
