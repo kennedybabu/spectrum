@@ -3,15 +3,25 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .forms import InterestForm
+from .models import Interest, Post,Comment
 
 
 # Create your views here.
 def home(request):
-    return render(request, 'spectrum/home.html')
+    interests = Interest.objects.all()
+    context = {
+        'interests':interests
+    }
+    return render(request, 'spectrum/home.html', context)
 
 
 def interest(request, pk):
-    return render(request, 'spectrum/channel.html')
+    interest = Interest.objects.get(id=pk)
+    context = {
+     'interest':interest   
+    }
+    
+    return render(request, 'spectrum/channel.html', context)
 
 
 def loginPage(request):

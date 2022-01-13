@@ -9,5 +9,10 @@
 
 <a href="{% url 'create_interest' %}">create</a>
 
+{% for interest in interests %} 
+    <p><a href="{% url 'interest' interest.id %}">{{ interest.name }}</a></p>
+
+{% endfor %}
+
 
 {% endblock %}
