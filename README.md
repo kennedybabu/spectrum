@@ -33,6 +33,4 @@ Kennedy Babu
 This project is licensed under the MIT License - see the LICENSE.md file for details
 
 ## Acknowledgments
-Hat tip to anyone whose code was used
-Inspiration
-etc
+Special thanks to all who helped us get through the blockers, and thanks to the members of the group for consistently showing up and helping out.
