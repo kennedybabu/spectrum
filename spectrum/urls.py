@@ -7,5 +7,8 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('interest/<int:pk>/', views.interest, name='interest' ),
     path('create_interest/', views.createInterest, name='create_interest'),
+    path('update_interest/<int:pk>/', views.updateInterest, name='update_interest'),
+    path('delete_interest/<int:pk>/', views.deleteInterest, name='delete_interest'),
+
 
 ]
