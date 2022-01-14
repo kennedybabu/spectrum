@@ -11,8 +11,10 @@ from django.contrib.auth.forms import UserCreationForm
 # Create your views here.
 def home(request):
     interests = Interest.objects.all()
+    posts = Post.objects.all()
     context = {
-        'interests':interests
+        'interests':interests,
+        'posts':posts
     }
     return render(request, 'spectrum/home.html', context)
 
@@ -136,6 +138,9 @@ def updateInterest(request, pk):
 def deleteInterest(request, pk):
     interest = Interest.objects.get(id=pk)
 
+    if request.user != interest.host:
+        return HttpResponse('You are not allowed to perform this action')
+
     if request.method == 'POST':
         interest.delete()
         return redirect('home')
@@ -166,5 +171,17 @@ def quitInterest(request,pk):
         'interests':interests
     }
     return render(request, 'spectrum/home.html', context)
+
+
+def deletePost(request, pk):
+    post = Post.objects.get(id=pk)
+
+    if request.user != post.user:
+        return HttpResponse('You are not allowed to perform this action')
+
+    if request.method == 'POST':
+        post.delete()
+        return redirect('home')
+    return render(request, 'spectrum/delete.html', {'obj':post})
 
     
