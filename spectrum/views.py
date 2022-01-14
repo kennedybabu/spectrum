@@ -6,9 +6,12 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import InterestForm
 from .models import Interest, Post,Comment
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+
 
 
 # Create your views here.
+@login_required(login_url='login')
 def home(request):
     interests = Interest.objects.all()
     posts = Post.objects.all()
@@ -18,7 +21,7 @@ def home(request):
     }
     return render(request, 'spectrum/home.html', context)
 
-
+@login_required(login_url='login')
 def interest(request, pk):
     interest = Interest.objects.get(id=pk)
     posts = interest.post_set.all().order_by('-created')
@@ -91,6 +94,7 @@ def registerUser(request):
     }
     return render(request, 'spectrum/login_register.html', context)
 
+@login_required(login_url='login')
 def userProfile(request, pk):
     user = User.objects.get(id=pk)
     # interests = user.interests_set.all()
@@ -102,7 +106,7 @@ def userProfile(request, pk):
     }
     return render(request, 'spectrum/profile.html', context)
 
-
+@login_required(login_url='login')
 def createInterest(request):
     form = InterestForm()
     if request.method == 'POST':
@@ -116,7 +120,7 @@ def createInterest(request):
     context = {'form':form}
     return render(request, 'spectrum/channel_form.html', context)
 
-
+@login_required(login_url='login')
 def updateInterest(request, pk):
     interest = Interest.objects.get(id=pk)
     form = InterestForm(instance=interest)
@@ -134,7 +138,7 @@ def updateInterest(request, pk):
     }
     return render(request, 'spectrum/channel_form.html', context)
 
-
+@login_required(login_url='login')
 def deleteInterest(request, pk):
     interest = Interest.objects.get(id=pk)
 
@@ -147,7 +151,7 @@ def deleteInterest(request, pk):
     return render(request, 'spectrum/delete.html', {'obj':interest})
 
 
-
+@login_required(login_url='login')
 def joinInterest(request, pk):
     interest = Interest.objects.get(id=pk)
     interest.members.add(request.user)
@@ -159,7 +163,7 @@ def joinInterest(request, pk):
     }
     return render(request, 'spectrum/channel.html', context)
 
-
+@login_required(login_url='login')
 def quitInterest(request,pk):
     interest = Interest.objects.get(id=pk)
     interest.members.remove(request.user)
@@ -172,7 +176,7 @@ def quitInterest(request,pk):
     }
     return render(request, 'spectrum/home.html', context)
 
-
+@login_required(login_url='login')
 def deletePost(request, pk):
     post = Post.objects.get(id=pk)
 

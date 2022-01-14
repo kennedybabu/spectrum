@@ -13,7 +13,7 @@
         {% for interest in interests %} 
             
             <div class="object">
-                <p><a href="{% url 'interest' interest.id %}">{{ interest.name }}</a></p>
+                <p class="text"><a href="{% url 'interest' interest.id %}">{{ interest.name }}</a></p>
                 <a href="{% url 'update_interest' interest.id %}">update</a>
                 <a href="{% url 'delete_interest' interest.id %}">delete</a>
                 <a href="{% url 'join_interest' interest.id %}">become a member</a>
