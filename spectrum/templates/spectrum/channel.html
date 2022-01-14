@@ -23,7 +23,7 @@
                 <small>@ {{ post.user }} {{ post.created }}</small>
                 <p>{{ post.body }}</p>  
                 {% if request.user == post.user %} 
-                <a href="{% url 'delete_post' post.id %}">delete</a> 
+                <a class='delete' href="{% url 'delete_post' post.id %}">delete</a> 
 
                 {% endif %}
                 <hr>

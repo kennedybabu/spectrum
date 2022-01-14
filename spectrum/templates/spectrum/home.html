@@ -24,6 +24,7 @@
         {% endfor %}
         </div>
         <div class="col-md-5">
+            <h4>whats happening</h4>
                 {% for post in posts %}
                     <div class="activity">
                         <small>@ {{ post.user }} {{ post.created | timesince }}</small><br>
@@ -31,7 +32,7 @@
                         <p>{{ post }}</p>
 
                         {% if request.user == post.user %} 
-                            <a href="{% url 'delete_post' post.id %}">delete</a>    
+                            <a class='delete' href="{% url 'delete_post' post.id %}">delete</a>    
                         {% endif %}
                     </div>    
                 {% endfor %}

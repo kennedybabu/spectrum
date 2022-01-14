@@ -1,0 +1,19 @@
+{% extends 'base.html' %} 
+
+{% load bootstrap4 %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 profile-col">    
+            <h4>@{{ user.username }}</h4>
+            <a class='my-3' href="">update profile</a>
+            <p>{{ user.bio }} </p>        
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
