@@ -5,8 +5,9 @@
 
 {% block content %}
 
+{% if page == 'login' %}
 
-<div>
+<div class="form-wrapeper">
     <form  method='POST' action="">
         {% csrf_token %}
         <div class="form-group">
@@ -23,8 +24,25 @@
             
         <input type="submit" value="login">
     </form>
+    <p>havent signed up yet?</p>
+    <a href="{% url 'register' %}">sign up</a>
 
 </div>
 
+{% else %}
+
+<div class="form-wrapeper">
+    <form  method='POST' action="">
+        {% csrf_token %}
+        {% bootstrap_form form %} 
+
+        <input type="submit" value="register">
+    </form>
+    <p>already signed up?</p>
+    <a href="{% url 'login' %}">login</a>
+
+</div>
+
+ {% endif %}
 
 {% endblock %}

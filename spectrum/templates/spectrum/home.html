@@ -5,20 +5,39 @@
 
 {% block content %}
 <div class="container">
-<p>home page</p>
-<a href="{% url 'login' %}">login</a>
-<a href="{% url 'create_interest' %}">create interest</a>
+    <div class="row">
 
-{% for interest in interests %} 
-    <div class='object'>
-        <p><a href="{% url 'interest' interest.id %}">{{ interest.name }}</a></p>
-        <a href="{% url 'update_interest' interest.id %}">update</a>
-        <a href="{% url 'delete_interest' interest.id %}">delete</a>
-        <a href="{% url 'join_interest' interest.id %}">become a member</a>
-        <a href="{% url 'quit_interest' interest.id %}">quit</a>
+        <div class='col-md-7'>
+            <a href="{% url 'create_interest' %}">create interest</a>
 
-    </div>
-{% endfor %}
+        {% for interest in interests %} 
+            
+            <div class="object">
+                <p class="text"><a href="{% url 'interest' interest.id %}">{{ interest.name }}</a></p>
+                <a href="{% url 'update_interest' interest.id %}">update</a>
+                <a href="{% url 'delete_interest' interest.id %}">delete</a>
+                <a href="{% url 'join_interest' interest.id %}">become a member</a>
+                <a href="{% url 'quit_interest' interest.id %}">quit</a>
+            </div>
+
+           
+        {% endfor %}
+        </div>
+        <div class="col-md-5">
+            <h4>whats happening</h4>
+                {% for post in posts %}
+                    <div class="activity">
+                        <small>@ {{ post.user }} {{ post.created | timesince }}</small><br>
+                        <small>replied to {{ post.interest }}</small>
+                        <p>{{ post }}</p>
+
+                        {% if request.user == post.user %} 
+                            <a class='delete' href="{% url 'delete_post' post.id %}">delete</a>    
+                        {% endif %}
+                    </div>    
+                {% endfor %}
+        </div>
+</div>
 </div>
 
 {% endblock %}

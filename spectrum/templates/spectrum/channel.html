@@ -4,12 +4,45 @@
 
 
 {% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <h4>{{ interest.name }}</h4>
+            <p>{{ interest.description }}</p>
 
-{% for member in members %} 
+            {% for member in members %} 
+                members
+            <p>@{{ member.username }}</p>
+            {% endfor %}
+        </div>
 
-{{ member.username }}
 
-{% endfor %}
+        <div class="conversation-wrapper col-md-6">
+            {% for post in posts %}
 
+                <small>@ {{ post.user }} {{ post.created }}</small>
+                <p>{{ post.body }}</p>  
+                {% if request.user == post.user %} 
+                <a class='delete' href="{% url 'delete_post' post.id %}">delete</a> 
 
+                {% endif %}
+                <hr>
+            
+            {% endfor %}
+        </div>
+
+        <div class="col-md-3">
+            <form action="" method="POST" class="post-form">
+                {% csrf_token %}
+
+                {% if request.user.is_authenticated %}  
+
+                <input type="text" name="body" value='create post...'>
+
+                {% endif %}
+
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

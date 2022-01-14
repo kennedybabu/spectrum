@@ -1,34 +1,53 @@
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .forms import InterestForm
 from .models import Interest, Post,Comment
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+
 
 
 # Create your views here.
+@login_required(login_url='login')
 def home(request):
     interests = Interest.objects.all()
+    posts = Post.objects.all()
     context = {
-        'interests':interests
+        'interests':interests,
+        'posts':posts
     }
     return render(request, 'spectrum/home.html', context)
 
-
+@login_required(login_url='login')
 def interest(request, pk):
     interest = Interest.objects.get(id=pk)
+    posts = interest.post_set.all().order_by('-created')
     members = interest.members.all()
+
+    if request.method == 'POST':
+        post = Post.objects.create(
+            user = request.user,
+            interest = interest,
+            body = request.POST.get('body')
+        )
+
+        return redirect('interest', pk=interest.id )
     context = {
      'interest':interest,  
-      'members':members
+      'members':members,
+      'posts':posts
     }
     
     return render(request, 'spectrum/channel.html', context)
 
 
 def loginPage(request):
+    page = 'login'
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = request.POST.get('username').lower()
         password = request.POST.get('password')
         
         try:
@@ -44,7 +63,9 @@ def loginPage(request):
         else:
             messages.error(request, 'username or password does not exist')
 
-    context = {}
+    context = {
+        'page':page
+    }
     return render(request, 'spectrum/login_register.html', context)
 
 
@@ -52,18 +73,40 @@ def logoutUser(request):
     logout(request)
     return redirect('home')
 
+
+def registerUser(request): 
+    form = UserCreationForm()
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid:
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(request, user)
+            return redirect('home')
+
+        else:
+            messages.error(request, 'something went wrong during registration')
+
+    context = {
+        'form':form
+    }
+    return render(request, 'spectrum/login_register.html', context)
+
+@login_required(login_url='login')
 def userProfile(request, pk):
     user = User.objects.get(id=pk)
-    interests = user.interests_set.all()
+    # interests = user.interests_set.all()
     posts = user.post_set.all()
     context = {
         'user':user,
-        'interests':interests,
+        # 'interests':interests,
         'posts':posts,
     }
     return render(request, 'spectrum/profile.html', context)
 
-
+@login_required(login_url='login')
 def createInterest(request):
     form = InterestForm()
     if request.method == 'POST':
@@ -77,10 +120,13 @@ def createInterest(request):
     context = {'form':form}
     return render(request, 'spectrum/channel_form.html', context)
 
-
+@login_required(login_url='login')
 def updateInterest(request, pk):
     interest = Interest.objects.get(id=pk)
     form = InterestForm(instance=interest)
+
+    if request.user != interest.host:
+        return HttpResponse('You are not allowed here!')
 
     if request.method == 'POST':
         form = InterestForm(request.POST, instance=interest)
@@ -92,9 +138,12 @@ def updateInterest(request, pk):
     }
     return render(request, 'spectrum/channel_form.html', context)
 
-
+@login_required(login_url='login')
 def deleteInterest(request, pk):
     interest = Interest.objects.get(id=pk)
+
+    if request.user != interest.host:
+        return HttpResponse('You are not allowed to perform this action')
 
     if request.method == 'POST':
         interest.delete()
@@ -102,7 +151,7 @@ def deleteInterest(request, pk):
     return render(request, 'spectrum/delete.html', {'obj':interest})
 
 
-
+@login_required(login_url='login')
 def joinInterest(request, pk):
     interest = Interest.objects.get(id=pk)
     interest.members.add(request.user)
@@ -114,7 +163,7 @@ def joinInterest(request, pk):
     }
     return render(request, 'spectrum/channel.html', context)
 
-
+@login_required(login_url='login')
 def quitInterest(request,pk):
     interest = Interest.objects.get(id=pk)
     interest.members.remove(request.user)
@@ -126,5 +175,17 @@ def quitInterest(request,pk):
         'interests':interests
     }
     return render(request, 'spectrum/home.html', context)
+
+@login_required(login_url='login')
+def deletePost(request, pk):
+    post = Post.objects.get(id=pk)
+
+    if request.user != post.user:
+        return HttpResponse('You are not allowed to perform this action')
+
+    if request.method == 'POST':
+        post.delete()
+        return redirect('home')
+    return render(request, 'spectrum/delete.html', {'obj':post})
 
     
