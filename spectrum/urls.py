@@ -13,6 +13,8 @@ urlpatterns = [
     path('profile/<int:pk>/', views.userProfile, name='user_profile'),
     path('join_interest/<int:pk>/', views.joinInterest, name='join_interest'),
     path('quit_interest/<int:pk>/', views.quitInterest, name='quit_interest'),
+    path('delete_postt/<int:pk>/', views.deletePost, name='delete_post'),
+
 
 
 ]
