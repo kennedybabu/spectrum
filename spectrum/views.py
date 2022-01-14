@@ -11,8 +11,10 @@ from django.contrib.auth.forms import UserCreationForm
 # Create your views here.
 def home(request):
     interests = Interest.objects.all()
+    posts = Post.objects.all()
     context = {
-        'interests':interests
+        'interests':interests,
+        'posts':posts
     }
     return render(request, 'spectrum/home.html', context)
 

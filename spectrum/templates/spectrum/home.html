@@ -19,6 +19,19 @@
 
     </div>
 {% endfor %}
+<div>
+    {% for post in posts %}
+        <div>
+            <small>@ {{ post.user }} {{ post.created | timesince }}</small>
+            <small>replied to {{ post.interest }}</small>
+            <p>{{ post }}</p>
+
+            {% if request.user == post.user %} 
+                <a href="{% url 'delete_post' post.id %}">delete</a>    
+            {% endif %}
+        </div>    
+    {% endfor %}
+</div>
 </div>
 
 {% endblock %}
